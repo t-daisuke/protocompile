@@ -4,13 +4,12 @@ import (
 	"bytes"
 	"fmt"
 	"io/ioutil"
-	"os"
 
 	// prototext.Marshal をインポート
 
 	"github.com/bufbuild/protocompile/parser"
 	"github.com/bufbuild/protocompile/reporter"
-	"google.golang.org/protobuf/proto"
+	"google.golang.org/protobuf/encoding/prototext"
 )
 
 func main() {
@@ -38,16 +37,23 @@ func main() {
 		return
 	}
 
-	// ダンプ結果をプロトバッファに変換
-	resultProto := result.FileDescriptorProto()
-	resultProtoBytes, err := proto.Marshal(resultProto)
+	// // ダンプ結果をプロトバッファに変換
+	// resultProto := result.FileDescriptorProto()
+	// resultProtoBytes, err := proto.Marshal(resultProto)
+	// if err != nil {
+	// 	fmt.Println("Error marshaling result to text:", err)
+	// 	return
+
+	// バイナリデータをテキスト形式に変換
+	resultProto := result.FileDescriptorProto() // これを追加
+	resultText, err := prototext.Marshal(resultProto)
 	if err != nil {
 		fmt.Println("Error marshaling result to text:", err)
 		return
 	}
 
 	// ダンプ結果をファイルに書き込む
-	err = os.WriteFile("hoge.proto", resultProtoBytes, 0644)
+	err = ioutil.WriteFile("hoge.proto", resultText, 0644)
 	if err != nil {
 		fmt.Println("Error writing file:", err)
 		return
