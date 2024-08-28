@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	"google.golang.org/protobuf/encoding/prototext" // prototext.Marshal をインポート
+	// prototext.Marshal をインポート
 
 	"github.com/bufbuild/protocompile/parser"
 	"github.com/bufbuild/protocompile/reporter"
-	"google.golang.org/protobuf/types/descriptorpb"
+	"google.golang.org/protobuf/proto"
 )
 
 func main() {
@@ -39,11 +39,13 @@ func main() {
 
 	// ダンプ結果をテキスト形式に変換
 	var resultText bytes.Buffer
-	err = prototext.Marshal(&resultText, result.GetProto().(*descriptorpb.FileDescriptorProto))
+	resultProto := result.FileDescriptorProto()         // 修正: ポインタを取得しない
+	resultProtoBytes, err := proto.Marshal(resultProto) // 修正: 変数名を変更
 	if err != nil {
 		fmt.Println("Error marshaling result to text:", err)
 		return
 	}
+	resultText.Write(resultProtoBytes) // 修正: バッファに書き込む
 
 	// ダンプ結果をファイルに書き込む
 	err = ioutil.WriteFile("hoge.proto", resultText.Bytes(), 0644)
