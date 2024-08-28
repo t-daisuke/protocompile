@@ -7,6 +7,8 @@ import (
 
 	"github.com/bufbuild/protocompile/parser"
 	"github.com/bufbuild/protocompile/reporter"
+	"google.golang.org/protobuf/proto"
+	"google.golang.org/protobuf/types/descriptorpb"
 )
 
 func main() {
@@ -34,8 +36,16 @@ func main() {
 		return
 	}
 
+	// ダンプ結果をテキスト形式に変換
+	var resultText bytes.Buffer
+	err = proto.MarshalText(&resultText, result.(*descriptorpb.FileDescriptorProto))
+	if err != nil {
+		fmt.Println("Error marshaling result to text:", err)
+		return
+	}
+
 	// ダンプ結果をファイルに書き込む
-	err = ioutil.WriteFile("hoge.proto", []byte(result.String()), 0644)
+	err = ioutil.WriteFile("hoge.proto", resultText.Bytes(), 0644)
 	if err != nil {
 		fmt.Println("Error writing file:", err)
 		return
