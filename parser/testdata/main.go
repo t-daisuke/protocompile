@@ -37,13 +37,6 @@ func main() {
 		return
 	}
 
-	// // ダンプ結果をプロトバッファに変換
-	// resultProto := result.FileDescriptorProto()
-	// resultProtoBytes, err := proto.Marshal(resultProto)
-	// if err != nil {
-	// 	fmt.Println("Error marshaling result to text:", err)
-	// 	return
-
 	// バイナリデータをテキスト形式に変換
 	resultProto := result.FileDescriptorProto() // これを追加
 	resultText, err := prototext.Marshal(resultProto)
