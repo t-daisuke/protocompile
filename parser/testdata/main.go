@@ -39,15 +39,15 @@ func main() {
 	}
 
 	// ダンプ結果をプロトバッファに変換
-	resultProto := result.FileDescriptorProto()         // 修正: ポインタを取得しない
-	resultProtoBytes, err := proto.Marshal(resultProto) // 修正: 変数名を変更
+	resultProto := result.FileDescriptorProto()
+	resultProtoBytes, err := proto.Marshal(resultProto)
 	if err != nil {
 		fmt.Println("Error marshaling result to text:", err)
 		return
 	}
 
 	// ダンプ結果をファイルに書き込む
-	err = os.WriteFile("hoge.proto", resultProtoBytes, 0644) // 修正: 書き込み権限を確認
+	err = os.WriteFile("hoge.proto", resultProtoBytes, 0644)
 	if err != nil {
 		fmt.Println("Error writing file:", err)
 		return
