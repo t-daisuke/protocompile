@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"io/ioutil"
+	"os"
 
 	// prototext.Marshal をインポート
 
@@ -37,7 +38,7 @@ func main() {
 		return
 	}
 
-	// ダンプ結果をテキスト形式に変換
+	// ダンプ結果をプロトバッファに変換
 	resultProto := result.FileDescriptorProto()         // 修正: ポインタを取得しない
 	resultProtoBytes, err := proto.Marshal(resultProto) // 修正: 変数名を変更
 	if err != nil {
@@ -46,7 +47,7 @@ func main() {
 	}
 
 	// ダンプ結果をファイルに書き込む
-	err = ioutil.WriteFile("hoge.proto", resultProtoBytes, 0644)
+	err = os.WriteFile("hoge.proto", resultProtoBytes, 0644) // 修正: 書き込み権限を確認
 	if err != nil {
 		fmt.Println("Error writing file:", err)
 		return
