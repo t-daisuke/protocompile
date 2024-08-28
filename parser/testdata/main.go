@@ -11,7 +11,7 @@ import (
 
 func main() {
 	// ファイルを読み込む
-	data, err := ioutil.ReadFile("./parser/testdata/largeproto.proto")
+	data, err := ioutil.ReadFile("./largeproto.proto")
 	if err != nil {
 		fmt.Println("Error reading file:", err)
 		return
